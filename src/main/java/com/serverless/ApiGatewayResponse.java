@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +51,14 @@ public class ApiGatewayResponse {
 
 		private static final Logger LOG = LogManager.getLogger(ApiGatewayResponse.Builder.class);
 
-		private static final ObjectMapper objectMapper = new ObjectMapper();
+		private static final ObjectMapper objectMapper = createObjectMapper();
+
+		private static ObjectMapper createObjectMapper() {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+			return objectMapper;
+		}
+
 
 		private int statusCode = 200;
 		private Map<String, String> headers = Collections.emptyMap();

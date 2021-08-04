@@ -1,22 +1,23 @@
 package com.serverless;
 
+import java.util.List;
 import java.util.Map;
 
 public class Response {
 
 	private final String message;
-	private final Map<String, Object> input;
+	private final List<String> result;
 
-	public Response(String message, Map<String, Object> input) {
+	public Response(String message, List<String> result) {
 		this.message = message;
-		this.input = input;
+		this.result = result;
 	}
 
 	public String getMessage() {
 		return this.message;
 	}
 
-	public Map<String, Object> getInput() {
-		return this.input;
+	public List<String> getResult() {
+		return this.result;
 	}
 }
