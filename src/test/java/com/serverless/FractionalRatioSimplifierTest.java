@@ -20,4 +20,10 @@ public class FractionalRatioSimplifierTest {
                 "4/6 : 4/6\n" +
                 "1 : 1\n", result);
     }
+    @Test
+    public void calculate_case_1() {
+        String result = FractionalRatioSimplifier.calculate("1/3","2/3" );
+        assertEquals("1/3 : 2/3\n" +
+                "1 : 2\n", result);
+    }
 }

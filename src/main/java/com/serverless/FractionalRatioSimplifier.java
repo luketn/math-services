@@ -19,10 +19,12 @@ public class FractionalRatioSimplifier {
         StringBuilder workingOut = new StringBuilder();
 
         String initialRatio = formatRatio(leftFraction, rightFraction);
-        workingOut.append(initialRatio).append('\n');
+        workingOut.append(initialRatio);
 
         String secondStep;
-        if (leftFraction.getDenominator() % rightFraction.getDenominator() == 0) {
+        if (leftFraction.getDenominator() == rightFraction.getDenominator()) {
+            secondStep = "";
+        } else if (leftFraction.getDenominator() % rightFraction.getDenominator() == 0) {
             //multiply right numerator by (left denominator/ right denominator)
             int rightNumerator = rightFraction.getNumerator() * (leftFraction.getDenominator() / rightFraction.getDenominator());
             rightFraction = getFraction(
@@ -48,28 +50,30 @@ public class FractionalRatioSimplifier {
             secondStep = formatRatio(leftFraction, rightFraction);
 
         }
-        workingOut.append(secondStep).append('\n');
+        workingOut.append(secondStep);
 
         //Now I have two fractions with equal denominators, which can be cancelled out of the ratio
         int left = leftFraction.getNumerator();
         int right = rightFraction.getNumerator();
 
-        List<Integer> leftPrimes = Primes.primeFactors(left);
-        List<Integer> rightPrimes = Primes.primeFactors(right);
+        if (left > 1 && right > 1) {
+            List<Integer> leftPrimes = Primes.primeFactors(left);
+            List<Integer> rightPrimes = Primes.primeFactors(right);
 
-        for (int leftPointer=0, rightPointer=0; leftPointer < leftPrimes.size() && rightPointer < rightPrimes.size(); ) {
-            Integer leftPrimeValue = leftPrimes.get(leftPointer);
-            Integer rightPrimeValue = rightPrimes.get(rightPointer);
-            if (leftPrimeValue == rightPrimeValue) {
-                Integer primeValue = leftPrimeValue;
-                left /= primeValue;
-                right /= primeValue;
-                leftPointer++;
-                rightPointer++;
-            } else if (leftPrimeValue < rightPrimeValue) {
-                leftPointer++;
-            } else {
-                rightPointer++;
+            for (int leftPointer = 0, rightPointer = 0; leftPointer < leftPrimes.size() && rightPointer < rightPrimes.size(); ) {
+                Integer leftPrimeValue = leftPrimes.get(leftPointer);
+                Integer rightPrimeValue = rightPrimes.get(rightPointer);
+                if (leftPrimeValue == rightPrimeValue) {
+                    Integer primeValue = leftPrimeValue;
+                    left /= primeValue;
+                    right /= primeValue;
+                    leftPointer++;
+                    rightPointer++;
+                } else if (leftPrimeValue < rightPrimeValue) {
+                    leftPointer++;
+                } else {
+                    rightPointer++;
+                }
             }
         }
 
@@ -82,6 +86,6 @@ public class FractionalRatioSimplifier {
     }
 
     private static String formatRatio(Fraction fractionOne, Fraction fractionTwo) {
-        return String.format("%s : %s", fractionOne, fractionTwo);
+        return String.format("%s : %s\n", fractionOne, fractionTwo);
     }
 }
